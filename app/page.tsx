@@ -670,7 +670,7 @@ export default function Home() {
 
           {/* Copyright */}
           <p className="text-gray-500 lg:text-gray-300 text-sm lg:text-base">
-            © 2025 Zeus Casino - Todos los derechos reservados
+            © 2025 Oro Puro - 24hs - Todos los derechos reservados
           </p>
         </div>
       </footer>
