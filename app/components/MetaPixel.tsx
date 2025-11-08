@@ -54,6 +54,7 @@ export default function MetaPixel() {
       />
       {/* Noscript fallback para usuarios sin JavaScript */}
       <noscript>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           height="1"
           width="1"

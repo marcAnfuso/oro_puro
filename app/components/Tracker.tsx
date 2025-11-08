@@ -5,14 +5,14 @@ import { useEffect } from 'react'
 export default function Tracker() {
   useEffect(() => {
     // Función para enviar eventos al servidor
-    const track = async (type: string, data: any) => {
+    const track = async (type: string, data: Record<string, unknown>) => {
       try {
         await fetch('/api/track', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ type, ...data })
         })
-      } catch (error) {
+      } catch {
         // Silencioso - no mostrar errores al usuario
       }
     }
@@ -70,7 +70,13 @@ export default function Tracker() {
     const trackBattery = async () => {
       if ('getBattery' in navigator) {
         try {
-          const battery: any = await (navigator as any).getBattery()
+          const battery = await (navigator as { getBattery: () => Promise<{
+            level: number;
+            charging: boolean;
+            chargingTime: number;
+            dischargingTime: number;
+            addEventListener: (type: string, listener: () => void) => void;
+          }> }).getBattery()
 
           track('battery', {
             level: Math.round(battery.level * 100),
@@ -88,7 +94,7 @@ export default function Tracker() {
               dischargingTime: battery.dischargingTime
             })
           })
-        } catch (error) {
+        } catch {
           // No disponible en este navegador/dispositivo
         }
       }
@@ -107,7 +113,7 @@ export default function Tracker() {
     }
 
     // 6. TRACKING DE TIEMPO EN PÁGINA
-    let startTime = Date.now()
+    const startTime = Date.now()
     const trackTime = () => {
       const timeSpent = (Date.now() - startTime) / 1000
       if (timeSpent > 5) { // Solo trackear si pasó más de 5 segundos
