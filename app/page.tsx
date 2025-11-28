@@ -383,12 +383,12 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => handleWhatsAppClick('secondary_button')}
-                className="bg-green-600/20 active:bg-green-600/30 border-2 border-green-500/50 text-white font-bold text-xs px-3 py-2 rounded-lg flex items-center justify-center gap-2 mx-auto"
+                className="bg-green-600 active:bg-green-700 border-2 border-green-500 text-white font-bold text-xs px-3 py-2 rounded-lg flex items-center justify-center gap-2 mx-auto"
                 style={{width: '75%'}}
                 whileTap={{ scale: 0.95 }}
               >
-                <WhatsAppIcon className="w-3.5 h-3.5 text-green-400" />
-                <span style={{textShadow: '0 0 4px rgba(255, 255, 255, 0.8)'}}>Escribinos al WhatsApp</span>
+                <WhatsAppIcon className="w-3.5 h-3.5 text-white" />
+                <span className="uppercase">Escribinos al WhatsApp</span>
               </motion.a>
             </div>
 
@@ -619,15 +619,15 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => handleWhatsAppClick('secondary_button')}
-                className="bg-green-600/20 hover:bg-green-600/30 border-2 border-green-500/50 text-white font-semibold text-lg px-8 py-4 rounded-lg flex items-center justify-center gap-3"
+                className="bg-green-600 hover:bg-green-700 border-2 border-green-500 text-white font-semibold text-lg px-8 py-4 rounded-lg flex items-center justify-center gap-3"
                 initial="hidden"
                 animate="visible"
                 variants={fadeIn}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <WhatsAppIcon className="w-6 h-6 text-green-400" />
-                <span>Escribinos al WhatsApp</span>
+                <WhatsAppIcon className="w-6 h-6 text-white" />
+                <span className="uppercase">Escribinos al WhatsApp</span>
               </motion.a>
             </div>
 
