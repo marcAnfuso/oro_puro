@@ -1,8 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, type Variants } from "framer-motion";
 import { useMetaTracking } from "./hooks/useMetaTracking";
+
+// Genera un ID de tracking de 6 caracteres (letras mayúscula/minúscula + números)
+function generateTrackingId(): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < 6; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
 
 // Custom WhatsApp icon component
 const WhatsAppIcon = ({ className }: { className?: string }) => (
@@ -20,12 +30,20 @@ export default function Home() {
   const { trackLead } = useMetaTracking();
   const [mounted, setMounted] = useState(false);
 
+  // Generar trackingId único para esta sesión (se mantiene igual mientras no recargue)
+  const trackingId = useMemo(() => generateTrackingId(), []);
+
+  // URL de WhatsApp con el tracking ID (doble salto de línea antes del REF)
+  const baseMessage = "Hola Daniela, Quiero usuario en Oro Puro y el extra de bienvenida!";
+  const messageWithRef = `${baseMessage}\n\n[REF:${trackingId}]`;
+  const whatsappUrl = `https://wa.me/+5491128754308?text=${encodeURIComponent(messageWithRef)}`;
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const handleWhatsAppClick = (source: 'main_button' | 'secondary_button') => {
-    trackLead(source);
+    trackLead(source, trackingId);
   };
 
   // Animation variants
@@ -275,7 +293,7 @@ export default function Home() {
           <div className="w-full max-w-sm px-4">
             <div className="flex flex-col gap-3 mb-2">
               <motion.a
-                href="https://wa.me/+5491128754308?text=Hola+Daniela%2C+Quiero+usuario+en+Oro+Puro+y+el+extra+de+bienvenida!"
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => handleWhatsAppClick('main_button')}
@@ -379,7 +397,7 @@ export default function Home() {
               </motion.a>
 
               <motion.a
-                href="https://wa.me/+5491128754308?text=Hola+Daniela%2C+Quiero+usuario+en+Oro+Puro+y+el+extra+de+bienvenida!"
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => handleWhatsAppClick('secondary_button')}
@@ -521,7 +539,7 @@ export default function Home() {
               {/* CTA Buttons */}
               <div className="flex flex-col gap-5 w-full">
               <motion.a
-                href="https://wa.me/+5491128754308?text=Hola+Daniela%2C+Quiero+usuario+en+Oro+Puro+y+el+extra+de+bienvenida!"
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => handleWhatsAppClick('main_button')}
@@ -615,7 +633,7 @@ export default function Home() {
               </motion.a>
 
               <motion.a
-                href="https://wa.me/+5491128754308?text=Hola+Daniela%2C+Quiero+usuario+en+Oro+Puro+y+el+extra+de+bienvenida!"
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => handleWhatsAppClick('secondary_button')}

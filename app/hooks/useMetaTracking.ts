@@ -7,18 +7,22 @@ interface EventData {
   content_category?: string;
   value?: number;
   currency?: string;
+  external_id?: string;
   [key: string]: string | number | boolean | undefined;
 }
 
 export function useMetaTracking() {
   const trackEvent = useCallback(async (
     eventName: string,
-    customData: EventData = {}
+    customData: EventData = {},
+    externalId?: string
   ) => {
-    // Enviar evento via Pixel (client-side)
+    // Enviar evento via Pixel (client-side) con external_id
     if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', eventName, customData);
-      console.log(`Meta Pixel: Evento "${eventName}" enviado`, customData);
+      // Pasar external_id como opción avanzada para matching
+      const options = externalId ? { external_id: externalId } : {};
+      window.fbq('track', eventName, customData, options);
+      console.log(`Meta Pixel: Evento "${eventName}" enviado`, { customData, externalId });
     }
 
     // Enviar evento via Conversions API (server-side) para mayor precisión
@@ -35,12 +39,11 @@ export function useMetaTracking() {
             custom_data: customData,
           },
           userData: {
-            // Meta puede usar estos datos para mejorar el matching
-            // Se hashean automáticamente por Meta
+            external_id: externalId, // Se hasheará en el servidor
           },
         }),
       });
-      console.log(`Meta Conversions API: Evento "${eventName}" enviado al servidor`);
+      console.log(`Meta Conversions API: Evento "${eventName}" enviado al servidor con external_id:`, externalId);
     } catch (error) {
       console.warn('Error al enviar evento a Conversions API:', error);
       // No fallar si el server-side tracking falla
@@ -48,8 +51,8 @@ export function useMetaTracking() {
   }, []);
 
   // Eventos específicos predefinidos para facilitar el uso
-  const trackLead = useCallback((source: string) => {
-    // Disparar evento personalizado ClickWhatsApp1
+  const trackLead = useCallback((source: string, trackingId?: string) => {
+    // Disparar evento personalizado ClickWhatsApp1 con external_id para matching
     trackEvent('ClickWhatsApp1', {
       content_name: 'Solicitud de Usuario WhatsApp',
       content_category: 'Lead Generation',
@@ -57,7 +60,8 @@ export function useMetaTracking() {
       source: source, // 'main_button' o 'secondary_button'
       value: 2.5, // Valor estimado del lead para ROAS (entre $2-3 USD)
       currency: 'USD',
-    });
+      external_id: trackingId, // Incluir en custom_data también
+    }, trackingId);
   }, [trackEvent]);
 
   const trackContact = useCallback((source: string) => {
