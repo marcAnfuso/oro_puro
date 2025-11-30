@@ -19,22 +19,9 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 export default function Home() {
   const { trackLead } = useMetaTracking();
   const [mounted, setMounted] = useState(false);
-  const [whatsappUrl, setWhatsappUrl] = useState(
-    "https://wa.me/+5491128754308?text=Hola+Daniela%2C+Quiero+usuario+en+Oro+Puro+y+el+extra+de+bienvenida!"
-  );
 
   useEffect(() => {
     setMounted(true);
-
-    // Capturar fbclid de la URL para tracking
-    const params = new URLSearchParams(window.location.search);
-    const fbclid = params.get('fbclid');
-
-    if (fbclid) {
-      const baseMsg = "Hola Daniela, Quiero usuario en Oro Puro y el extra de bienvenida!";
-      const msgWithRef = `${baseMsg}\n[REF:${fbclid}]`;
-      setWhatsappUrl(`https://wa.me/+5491128754308?text=${encodeURIComponent(msgWithRef)}`);
-    }
   }, []);
 
   const handleWhatsAppClick = (source: 'main_button' | 'secondary_button') => {
@@ -288,7 +275,7 @@ export default function Home() {
           <div className="w-full max-w-sm px-4">
             <div className="flex flex-col gap-3 mb-2">
               <motion.a
-                href={whatsappUrl}
+                href="https://wa.me/+5491128754308?text=Hola+Daniela%2C+Quiero+usuario+en+Oro+Puro+y+el+extra+de+bienvenida!"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => handleWhatsAppClick('main_button')}
@@ -392,7 +379,7 @@ export default function Home() {
               </motion.a>
 
               <motion.a
-                href={whatsappUrl}
+                href="https://wa.me/+5491128754308?text=Hola+Daniela%2C+Quiero+usuario+en+Oro+Puro+y+el+extra+de+bienvenida!"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => handleWhatsAppClick('secondary_button')}
@@ -534,7 +521,7 @@ export default function Home() {
               {/* CTA Buttons */}
               <div className="flex flex-col gap-5 w-full">
               <motion.a
-                href={whatsappUrl}
+                href="https://wa.me/+5491128754308?text=Hola+Daniela%2C+Quiero+usuario+en+Oro+Puro+y+el+extra+de+bienvenida!"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => handleWhatsAppClick('main_button')}
@@ -628,7 +615,7 @@ export default function Home() {
               </motion.a>
 
               <motion.a
-                href={whatsappUrl}
+                href="https://wa.me/+5491128754308?text=Hola+Daniela%2C+Quiero+usuario+en+Oro+Puro+y+el+extra+de+bienvenida!"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => handleWhatsAppClick('secondary_button')}
