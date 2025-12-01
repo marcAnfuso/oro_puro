@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { motion, type Variants } from "framer-motion";
 import { useMetaTracking } from "./hooks/useMetaTracking";
 
@@ -28,19 +28,17 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 
 export default function Home() {
   const { trackLead } = useMetaTracking();
-  const [mounted, setMounted] = useState(false);
+  const [trackingId, setTrackingId] = useState<string>('');
 
-  // Generar trackingId único para esta sesión (se mantiene igual mientras no recargue)
-  const trackingId = useMemo(() => generateTrackingId(), []);
+  // Generar trackingId único en el cliente (no en SSR)
+  useEffect(() => {
+    setTrackingId(generateTrackingId());
+  }, []);
 
   // URL de WhatsApp con el tracking ID (doble salto de línea antes del REF)
   const baseMessage = "Hola Daniela, Quiero usuario en Oro Puro y el extra de bienvenida!";
   const messageWithRef = `${baseMessage}\n\n[REF:${trackingId}]`;
   const whatsappUrl = `https://wa.me/+5491128754308?text=${encodeURIComponent(messageWithRef)}`;
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const handleWhatsAppClick = (source: 'main_button' | 'secondary_button') => {
     trackLead(source, trackingId);
