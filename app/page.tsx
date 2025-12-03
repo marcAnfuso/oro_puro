@@ -38,7 +38,7 @@ export default function Home() {
   // URL de WhatsApp con el tracking ID (doble salto de línea antes del REF)
   const baseMessage = "Hola Daniela, Quiero usuario en Oro Puro y el extra de bienvenida!";
   const messageWithRef = `${baseMessage}\n\n[REF:${trackingId}]`;
-  const whatsappUrl = `https://wa.me/+5491128754308?text=${encodeURIComponent(messageWithRef)}`;
+  const whatsappUrl = `https://wa.me/+543454260520?text=${encodeURIComponent(messageWithRef)}`;
 
   const handleWhatsAppClick = (source: 'main_button' | 'secondary_button') => {
     trackLead(source, trackingId);
